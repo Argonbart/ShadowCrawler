@@ -4,14 +4,24 @@ extends CharacterBody2D
 
 var speed = 40
 var acceleration = 7
+var health
 
 @onready var navigation_agent: NavigationAgent2D = $Navigation/NavigationAgent2D
 @onready var _animated_sprite = $AnimatedSprite2D
+@onready var healthbar = $Healthbar
+
+var is_in_light = false
 
 func _ready():
 	_animated_sprite.play("run")
-		
+	
+	health = 1000
+	healthbar.init_health(health)
+	
 func _physics_process(delta):
+	
+	if is_in_light:
+		healthbar._set_health(healthbar.health - 0.2)
 	
 	var direction = Vector2.ZERO
 	
@@ -46,3 +56,12 @@ func _on_timer_timeout():
 		t = 0
 	elif (t > 10):
 		_animated_sprite.play("run")
+
+func _on_light_area_body_entered(body):
+	print("enemy in cone")
+	is_in_light = true
+
+
+func _on_light_area_body_exited(body):
+	print("enemy not in cone anymore")
+	is_in_light = false
