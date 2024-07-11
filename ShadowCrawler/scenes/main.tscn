@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=50 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
 [ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/new_tile_set.tres" id="1_pq0kh"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone_only.png" id="5_avcmf"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="6_nfukf"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="7_86e1e"]
+[ext_resource type="Script" path="res://scenes/player_ray_cast.gd" id="8_5dqd7"]
 [ext_resource type="PackedScene" uid="uid://c3kq1hsprilke" path="res://scenes/healthbar.tscn" id="10_p5jq5"]
 [ext_resource type="Texture2D" uid="uid://dm310o8ombub0" path="res://tilesets/Dungeon_Tileset.png" id="11_ggxsh"]
 
@@ -1272,21 +1273,6 @@ shadow_enabled = true
 texture = ExtResource("3_35ay4")
 script = ExtResource("4_4ia3d")
 
-[node name="PointLight2D_Cone2" type="PointLight2D" parent="Player"]
-visible = false
-scale = Vector2(0.0675928, 0.0660598)
-color = Color(1, 1, 1, 0.0313726)
-energy = 16.0
-texture = ExtResource("5_avcmf")
-script = ExtResource("6_nfukf")
-
-[node name="LightArea" type="Area2D" parent="Player/PointLight2D_Cone2"]
-scale = Vector2(14.7945, 15.1378)
-
-[node name="LightConeCollisionShape" type="CollisionPolygon2D" parent="Player/PointLight2D_Cone2/LightArea"]
-scale = Vector2(0.068, 0.068)
-polygon = PackedVector2Array(1870, -701.8, 1870, -698.4, 1908, -590.3, 1908, -586.3, 1928, -521.3, 1928, -517, 1956, -403.2, 1956, -398.4, 1968, -340.2, 1968, -334, 1983, -237.2, 1983, -228, 1990, -168.1, 1990, -155, 1996, -65.1, 1996, 65.1001, 1982.9, 239, 1981.8, 239, 1973.8, 305, 1972.7, 305, 1955.7, 405, 1954.7, 405, 1940.6, 472, 1939.5, 472, 1918.6, 555, 1917.5, 555, 1887.5, 653, 1886.4, 653, 1865.4, 709, 1861.7, 709, 310.6, 167, 279.1, 216, 277.9, 216, 231.9, 266, 229.7, 266, 187.7, 299, 185.6, 299, 135.5, 326, 132.3, 326, 79.3, 344, 74.3, 344, 26.2, 352, -26.1, 352, -67, 346.8, -67, 345.6, -107, 336.6, -107, 335.4, -157, 316.4, -157, 315.1, -204, 288.2, -204, 287, -246, 253, -246, 251.7, -289, 202.8, -289, 200.6, -317, 155.6, -317, 152.5, -340, 95.3999, -340, 91.3999, -351, 37.2, -351, 26, -352, -28, -350.8, -28, -345.8, -72, -344.5, -72, -329.5, -127, -328.3, -127, -307.3, -174, -306.1, -174, -279.1, -216, -277.9, -216, -244.9, -254, -242.7, -254, -202.8, -289, -200.6, -289, -157.6, -316, -155.3, -316, -105.4, -337, -101.1, -337, -46.2, -350, -37, -350, 28, -352, 28, -350.8, 81, -343.8, 81, -342.5, 137, -325.5, 137, -324.2, 189, -298.2, 189, -297, 233, -265, 233, -263.8, 272, -224.8, 272, -222.7, 289, -202.7, 289, -200.5, 311.2, -168.2, 1860, -707.4, 1860, -708.3, 1862.5, -709.4)
-
 [node name="PointLight2D_Cone" type="PointLight2D" parent="Player"]
 scale = Vector2(0.0675928, 0.0660598)
 color = Color(1, 1, 1, 0.0313726)
@@ -1296,13 +1282,12 @@ texture = ExtResource("5_avcmf")
 script = ExtResource("6_nfukf")
 
 [node name="LightArea" type="Area2D" parent="Player/PointLight2D_Cone"]
-scale = Vector2(14.7945, 15.1378)
 
-[node name="LightConeCollisionShape" type="CollisionPolygon2D" parent="Player/PointLight2D_Cone/LightArea"]
-scale = Vector2(0.068, 0.068)
-polygon = PackedVector2Array(1870, -701.8, 1870, -698.4, 1908, -590.3, 1908, -586.3, 1928, -521.3, 1928, -517, 1956, -403.2, 1956, -398.4, 1968, -340.2, 1968, -334, 1983, -237.2, 1983, -228, 1990, -168.1, 1990, -155, 1996, -65.1, 1996, 65.1001, 1982.9, 239, 1981.8, 239, 1973.8, 305, 1972.7, 305, 1955.7, 405, 1954.7, 405, 1940.6, 472, 1939.5, 472, 1918.6, 555, 1917.5, 555, 1887.5, 653, 1886.4, 653, 1865.4, 709, 1861.7, 709, 310.6, 167, 279.1, 216, 277.9, 216, 231.9, 266, 229.7, 266, 187.7, 299, 185.6, 299, 135.5, 326, 132.3, 326, 79.3, 344, 74.3, 344, 26.2, 352, -26.1, 352, -67, 346.8, -67, 345.6, -107, 336.6, -107, 335.4, -157, 316.4, -157, 315.1, -204, 288.2, -204, 287, -246, 253, -246, 251.7, -289, 202.8, -289, 200.6, -317, 155.6, -317, 152.5, -340, 95.3999, -340, 91.3999, -351, 37.2, -351, 26, -352, -28, -350.8, -28, -345.8, -72, -344.5, -72, -329.5, -127, -328.3, -127, -307.3, -174, -306.1, -174, -279.1, -216, -277.9, -216, -244.9, -254, -242.7, -254, -202.8, -289, -200.6, -289, -157.6, -316, -155.3, -316, -105.4, -337, -101.1, -337, -46.2, -350, -37, -350, 28, -352, 28, -350.8, 81, -343.8, 81, -342.5, 137, -325.5, 137, -324.2, 189, -298.2, 189, -297, 233, -265, 233, -263.8, 272, -224.8, 272, -222.7, 289, -202.7, 289, -200.5, 311.2, -168.2, 1860, -707.4, 1860, -708.3, 1862.5, -709.4)
+[node name="RayCast2D" type="RayCast2D" parent="Player" groups=["PlayerRay"]]
+target_position = Vector2(0, 0)
+script = ExtResource("8_5dqd7")
 
-[node name="Enemy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("target")]
+[node name="Enemy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("target") groups=["Monster"]]
 position = Vector2(160, 20)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -1333,8 +1318,6 @@ offset_right = 23.0
 offset_bottom = -34.0
 player = NodePath("../../Player")
 
-[node name="RayCast2D" type="RayCast2D" parent="Enemy/Healthbar"]
-
 [node name="TileMap3" type="TileMap" parent="."]
 tile_set = ExtResource("1_pq0kh")
 format = 2
@@ -1345,13 +1328,8 @@ tile_set = SubResource("TileSet_cbyd6")
 format = 2
 layer_0/tile_data = PackedInt32Array(4, 0, 28, 65540, 0, 29, 5, 65536, 28, 65541, 65536, 29)
 
-[node name="Camera2D2" type="Camera2D" parent="."]
-offset = Vector2(-32, -32)
-anchor_mode = 0
-zoom = Vector2(2.4, 2.4)
-
-[connection signal="body_entered" from="Player/PointLight2D_Cone2/LightArea" to="Enemy" method="_on_light_area_body_entered"]
-[connection signal="body_exited" from="Player/PointLight2D_Cone2/LightArea" to="Enemy" method="_on_light_area_body_exited"]
+[connection signal="body_entered" from="Player/PointLight2D_Cone/LightArea" to="Player/PointLight2D_Cone" method="_on_light_area_body_entered"]
 [connection signal="body_entered" from="Player/PointLight2D_Cone/LightArea" to="Enemy" method="_on_light_area_body_entered"]
+[connection signal="body_exited" from="Player/PointLight2D_Cone/LightArea" to="Player/PointLight2D_Cone" method="_on_light_area_body_exited"]
 [connection signal="body_exited" from="Player/PointLight2D_Cone/LightArea" to="Enemy" method="_on_light_area_body_exited"]
 [connection signal="timeout" from="Enemy/Navigation/Timer" to="Enemy" method="_on_timer_timeout"]

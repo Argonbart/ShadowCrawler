@@ -9,18 +9,22 @@ var health
 @onready var navigation_agent: NavigationAgent2D = $Navigation/NavigationAgent2D
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var healthbar = $Healthbar
+@onready var ray
 
-var is_in_light = false
+var is_in_light
 
 func _ready():
 	_animated_sprite.play("run")
 	
+	is_in_light = false
 	health = 1000
 	healthbar.init_health(health)
 	
+	ray = get_tree().get_first_node_in_group("PlayerRay")
+	
 func _physics_process(delta):
 	
-	if is_in_light:
+	if is_in_light and ray.is_colliding():
 		healthbar._set_health(healthbar.health - 0.2)
 	
 	var direction = Vector2.ZERO
@@ -28,7 +32,7 @@ func _physics_process(delta):
 	direction = navigation_agent.get_next_path_position() - global_position
 	direction = direction.normalized()
 	
-	velocity = velocity.lerp(direction * speed, acceleration * delta)
+	#velocity = velocity.lerp(direction * speed, acceleration * delta)
 	
 	if direction.x < 0:
 		_animated_sprite.flip_h = true
@@ -58,8 +62,9 @@ func _on_timer_timeout():
 		_animated_sprite.play("run")
 
 func _on_light_area_body_entered(body):
-	is_in_light = true
-
+	if body.name == "Enemy":
+		is_in_light = true
 
 func _on_light_area_body_exited(body):
-	is_in_light = false
+	if body.name == "Enemy":
+		is_in_light = false
