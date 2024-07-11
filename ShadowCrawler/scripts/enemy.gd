@@ -58,10 +58,8 @@ func _on_timer_timeout():
 		_animated_sprite.play("run")
 
 func _on_light_area_body_entered(body):
-	print("enemy in cone")
 	is_in_light = true
 
 
 func _on_light_area_body_exited(body):
-	print("enemy not in cone anymore")
 	is_in_light = false

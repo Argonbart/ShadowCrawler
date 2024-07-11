@@ -5,8 +5,8 @@
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_c4dyl"]
 polygon = PackedVector2Array(-8, -16, -8, 16, 16, 16, 16, -16)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_if0ae"]
-polygon = PackedVector2Array(-11, -16, -11, -6, -12, -6, -12, -5, -13, -5, -13, 12, 11, 12, 11, -5, 10, -5, 10, -6, 9, -6, 9, -16)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_qbuex"]
+polygon = PackedVector2Array(-10.75, -5.25, -11, -6, -12, -6, -12, -5, -13, -5, -13, 12, 11, 12, 11, -5, 10, -5, 10, -6, 9, -6, 9.25, -5.5)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ln1qr"]
 polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -728,7 +728,7 @@ texture_region_size = Vector2i(32, 32)
 14:13/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 14:13/0/physics_layer_0/angular_velocity = 0.0
 0:14/0 = 0
-0:14/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_if0ae")
+0:14/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_qbuex")
 0:14/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:14/0/physics_layer_0/angular_velocity = 0.0
 0:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11, -16, -11, -6, -12, -6, -12, -5, -13, -5, -13, 12, 11, 12, 11, -5, 10, -5, 10, -6, 9, -6, 9, -16)
