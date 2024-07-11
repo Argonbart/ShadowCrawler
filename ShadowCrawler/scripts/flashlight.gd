@@ -25,7 +25,9 @@ func _ready():
 	area.position = player.position
 
 func _on_light_area_body_entered(body):
-	modulate = Color.RED
+	if body.name == "Enemy":
+		modulate = Color.RED
 
 func _on_light_area_body_exited(body):
-	modulate = Color.WHITE
+	if body.name == "Enemy":
+		modulate = Color.WHITE

@@ -9,22 +9,29 @@ var health
 @onready var navigation_agent: NavigationAgent2D = $Navigation/NavigationAgent2D
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var healthbar = $Healthbar
-@onready var ray
 
+@onready var ray : RayCast2D
+
+var ray_colliding_with_enemy
 var is_in_light
 
 func _ready():
 	_animated_sprite.play("run")
 	
+	ray_colliding_with_enemy = false
 	is_in_light = false
+	
 	health = 1000
 	healthbar.init_health(health)
 	
 	ray = get_tree().get_first_node_in_group("PlayerRay")
 	
 func _physics_process(delta):
+
+	if ray.is_colliding():
+		ray_colliding_with_enemy = ray.get_collider() == get_tree().get_first_node_in_group("Enemy")
 	
-	if is_in_light and ray.is_colliding():
+	if is_in_light and ray_colliding_with_enemy:
 		healthbar._set_health(healthbar.health - 0.2)
 	
 	var direction = Vector2.ZERO

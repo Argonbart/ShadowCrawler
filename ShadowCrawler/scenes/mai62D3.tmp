@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=50 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
 [ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/new_tile_set.tres" id="1_pq0kh"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" path="res://scenes/player_ray_cast.gd" id="8_5dqd7"]
 [ext_resource type="PackedScene" uid="uid://c3kq1hsprilke" path="res://scenes/healthbar.tscn" id="10_p5jq5"]
 [ext_resource type="Texture2D" uid="uid://dm310o8ombub0" path="res://tilesets/Dungeon_Tileset.png" id="11_ggxsh"]
-[ext_resource type="TileSet" uid="uid://ekl01u7vf81l" path="res://tilesets/new_tile_set_2.tres" id="13_0j4nk"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3pf8b"]
 vertices = PackedVector2Array(-59, 70, 278, 118, -182, 118, -103, 70, 101, 38, 185, 6, 229, 6, 278, -150, 229, -31, -182, -150, -103, 33, 101, 1, 185, -31, 5, 6, 5, -31, 57, 1, 57, 38, 228, -31, 228, -32, 227, -32, 227, -42, 187, -42, 187, -32, 186, -32, 186, -31, 100, 1, 100, 0, 99, 0, 99, -10, 3, -42, 59, -10, 59, 0, 58, 0, 4, -32, 58, 1, 4, -31, 3, -32, -37, -42, -37, -32, -38, -32, -38, -31, -39, -31, -59, 33, -60, 33, -60, 32, -39, 6, -61, 32, -61, 22, -101, 22, -101, 32, -102, 32, -102, 33)
@@ -1319,20 +1318,15 @@ offset_right = 23.0
 offset_bottom = -34.0
 player = NodePath("../../Player")
 
+[node name="TileMap3" type="TileMap" parent="."]
+tile_set = ExtResource("1_pq0kh")
+format = 2
+layer_0/tile_data = PackedInt32Array(65533, 0, 13, -65537, 65536, 13, -65534, 65536, 13, -131066, 0, 13)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_cbyd6")
 format = 2
 layer_0/tile_data = PackedInt32Array(4, 0, 28, 65540, 0, 29, 5, 65536, 28, 65541, 65536, 29)
-
-[node name="TileMap3" type="TileMap" parent="."]
-tile_set = ExtResource("1_pq0kh")
-format = 2
-layer_0/tile_data = PackedInt32Array(65533, 0, 13, -65537, 65536, 13, -131066, 0, 13, -65534, 65536, 13, 2, 0, 14)
-
-[node name="TileMap4" type="TileMap" parent="."]
-tile_set = ExtResource("13_0j4nk")
-format = 2
-layer_0/tile_data = PackedInt32Array(65533, 0, 13, -65537, 65536, 13, -131066, 0, 13, -65534, 65536, 13, 2, 0, 14)
 
 [connection signal="body_entered" from="Player/PointLight2D_Cone/LightArea" to="Player/PointLight2D_Cone" method="_on_light_area_body_entered"]
 [connection signal="body_entered" from="Player/PointLight2D_Cone/LightArea" to="Enemy" method="_on_light_area_body_entered"]
