@@ -284,14 +284,15 @@ layer_2/name = "Walls"
 layer_2/tile_data = PackedInt32Array(196607, 262144, 2, 262143, 262144, 3, -65528, 0, 1, 8, 0, 1, -262150, 196608, 0, -196614, 196608, 1, -131078, 131072, 1, -65542, 131072, 1, -6, 131072, 1, 65530, 131072, 1, 131066, 131072, 1, 196602, 196608, 2, 262138, 196608, 3, -262149, 589824, 0, -196613, 655360, 1, 196603, 262144, 2, 262139, 262144, 3, -262148, 720896, 0, -196612, 655360, 1, 196604, 262144, 2, 262140, 262144, 3, -262147, 851968, 0, -196611, 655360, 1, 196605, 262144, 2, 262141, 262144, 3, -262146, 655360, 0, -196610, 720896, 1, 196606, 262144, 2, 262142, 262144, 3, -262145, 655360, 0, -196609, 720896, 1, -327680, 917504, 0, -262144, 720896, 1, 131072, 262144, 2, 196608, 262144, 3, -327679, 851968, 0, -262143, 851968, 1, 131073, 262144, 2, 196609, 262144, 3, -327678, 720896, 0, -262142, 589824, 1, 131074, 262144, 2, 196610, 262144, 3, -327677, 786432, 0, -262141, 851968, 1, 131075, 262144, 2, 196611, 262144, 3, -327676, 917504, 0, -262140, 720896, 1, 131076, 262144, 2, 196612, 262144, 3, -327675, 917504, 0, -262139, 851968, 1, 131077, 262144, 2, 196613, 262144, 3, -327674, 786432, 0, -262138, 655360, 1, 131078, 262144, 2, 196614, 262144, 3, -327673, 851968, 0, -262137, 917504, 1, 131079, 262144, 2, 196615, 262144, 3, -327672, 327680, 0, -262136, 327680, 1, -196600, 0, 1, -131064, 0, 1, 65544, 0, 1, 131080, 327680, 2, 196616, 327680, 3)
 
 [node name="TileMap_collision" type="TileMap" parent="."]
+visible = false
 tile_set = ExtResource("1_pq0kh")
 format = 2
 layer_0/tile_data = PackedInt32Array(65533, 0, 13, -65537, 65536, 13, -131066, 0, 13)
 
 [node name="TileMap_visual" type="TileMap" parent="."]
-light_mask = 2
 tile_set = ExtResource("13_0j4nk")
 format = 2
+layer_0/z_index = 15
 layer_0/tile_data = PackedInt32Array(2, 0, 14, -65534, 0, 13)
 
 [node name="Player" type="CharacterBody2D" parent="."]
@@ -315,6 +316,7 @@ texture = ExtResource("3_35ay4")
 script = ExtResource("4_4ia3d")
 
 [node name="PointLight2D_Cone" type="PointLight2D" parent="Player"]
+visible = false
 scale = Vector2(0.0675928, 0.0660598)
 color = Color(1, 1, 1, 0.0313726)
 energy = 16.0
@@ -327,6 +329,21 @@ script = ExtResource("6_nfukf")
 [node name="RayCast2D" type="RayCast2D" parent="Player" groups=["PlayerRay"]]
 target_position = Vector2(0, 0)
 script = ExtResource("8_5dqd7")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Player"]
+scale = Vector2(0.1, 0.1)
+range_z_min = -10
+range_z_max = 10
+shadow_enabled = true
+texture = ExtResource("5_avcmf")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Player/PointLight2D2"]
+range_z_min = 10
+range_z_max = 20
+shadow_enabled = true
+shadow_item_cull_mask = 0
+texture = ExtResource("5_avcmf")
+metadata/_edit_lock_ = true
 
 [node name="Enemy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("target") groups=["Enemy"]]
 position = Vector2(160, 20)
