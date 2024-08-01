@@ -1,12 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bf8yd5cwu03lb"]
+[gd_scene load_steps=8 format=3 uid="uid://bf8yd5cwu03lb"]
 
 [ext_resource type="Texture2D" uid="uid://bgc6fhsvnn6rf" path="res://extra/lightcone_both_new.png" id="1_l1vdm"]
 [ext_resource type="Script" path="res://scenes/test.gd" id="2_n5tw5"]
 [ext_resource type="Texture2D" uid="uid://dm310o8ombub0" path="res://tilesets/Dungeon_Tileset.png" id="3_1h6eq"]
 [ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone_only.png" id="4_dc1i7"]
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ep7aj"]
-polygon = PackedVector2Array(980, -90, 980, 80, 750, 80, 750, -90)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u5q7m"]
 polygon = PackedVector2Array(10, 11.75, 10.25, -5.75, -12.75, -5.75, -12.75, 12)
@@ -995,10 +992,11 @@ texture = ExtResource("1_l1vdm")
 script = ExtResource("2_n5tw5")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
+visible = false
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(309, 230)
-rotation = 4.37882
+position = Vector2(267, 226)
+rotation = -1.90437
 scale = Vector2(0.1, 0.1)
 range_z_min = -10
 range_z_max = 10
@@ -1012,18 +1010,6 @@ shadow_enabled = true
 shadow_item_cull_mask = 0
 texture = ExtResource("4_dc1i7")
 metadata/_edit_lock_ = true
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
-position = Vector2(57, 147)
-scale = Vector2(0.1, 0.1)
-occluder = SubResource("OccluderPolygon2D_ep7aj")
-
-[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
-visible = false
-position = Vector2(57, 147)
-scale = Vector2(0.1, 0.1)
-occluder = SubResource("OccluderPolygon2D_ep7aj")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_5fvs0")

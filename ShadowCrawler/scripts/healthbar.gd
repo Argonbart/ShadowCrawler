@@ -1,13 +1,17 @@
 extends ProgressBar
 
-@export var player : CharacterBody2D
+var player
 
 @onready var timer = $Timer
 @onready var damage_bar = $DamageBar
 
 var health = 0  : set = _set_health
 
+func _ready():
+	player = get_parent()
+
 func _set_health(new_health):
+	
 	var prev_health = health
 	health = min(max_value, new_health)
 	value = health

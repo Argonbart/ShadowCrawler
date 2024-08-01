@@ -10,12 +10,13 @@ var health
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var healthbar = $Healthbar
 
-@onready var ray : RayCast2D
+var ray : RayCast2D
 
 var ray_colliding_with_enemy
 var is_in_light
 
 func _ready():
+	
 	_animated_sprite.play("run")
 	
 	ray_colliding_with_enemy = false
@@ -24,22 +25,33 @@ func _ready():
 	health = 1000
 	healthbar.init_health(health)
 	
-	ray = get_tree().get_first_node_in_group("PlayerRay")
+	#ray = get_tree().get_first_node_in_group("PlayerRay")
+	ray = RayCast2D.new()
+	add_child(ray)
 	
 func _physics_process(delta):
+	
+	# Ray stuff
+	ray.target_position = target.global_position - global_position
 
 	if ray.is_colliding():
-		ray_colliding_with_enemy = ray.get_collider() == get_tree().get_first_node_in_group("Enemy")
+		ray_colliding_with_enemy = ray.get_collider() == target
 	
 	if is_in_light and ray_colliding_with_enemy:
+		healthbar.visible = true
 		healthbar._set_health(healthbar.health - 0.2)
+	else:
+		healthbar.visible = false
+	
+	if healthbar.value <= 0:
+		queue_free()
 	
 	var direction = Vector2.ZERO
 	
 	direction = navigation_agent.get_next_path_position() - global_position
 	direction = direction.normalized()
 	
-	#velocity = velocity.lerp(direction * speed, acceleration * delta)
+	velocity = velocity.lerp(direction * speed, acceleration * delta)
 	
 	if direction.x < 0:
 		_animated_sprite.flip_h = true
@@ -68,10 +80,10 @@ func _on_timer_timeout():
 	elif (t > 10):
 		_animated_sprite.play("run")
 
-func _on_light_area_body_entered(body):
+func _on_collision_light_enemy_hit(body):
 	if body.name == "Enemy":
 		is_in_light = true
 
-func _on_light_area_body_exited(body):
+func _on_collision_light_enemy_hit_stop(body):
 	if body.name == "Enemy":
 		is_in_light = false
