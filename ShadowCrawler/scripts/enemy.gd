@@ -1,53 +1,63 @@
 extends CharacterBody2D
 
-@export var target: Node2D
-
-var speed = 40
-var acceleration = 7
-var health
-
 @onready var navigation_agent: NavigationAgent2D = $Navigation/NavigationAgent2D
-@onready var _animated_sprite = $AnimatedSprite2D
+@onready var _animated_sprite = $GhoulSprite
 @onready var healthbar = $Healthbar
 
-var ray : RayCast2D
+# Ghoul Attributes
+var speed = 40
+var acceleration = 7
+var health = 1000
+var direction
+var animation_ticker = 0
 
-var ray_colliding_with_enemy
+# Player Ray
+@export var player: CharacterBody2D
+var player_ray : RayCast2D
+var player_ray_colliding
+
+# Ghoul Conditions
 var is_in_light
 
 func _ready():
-	
+
 	_animated_sprite.play("run")
 	
-	ray_colliding_with_enemy = false
-	is_in_light = false
-	
-	health = 1000
+	player_ray_colliding = false
+	is_in_light = true
+	healthbar.visible = false
+	direction = Vector2.ZERO
 	healthbar.init_health(health)
-	
-	#ray = get_tree().get_first_node_in_group("PlayerRay")
-	ray = RayCast2D.new()
-	add_child(ray)
-	
-func _physics_process(delta):
-	
-	# Ray stuff
-	ray.target_position = target.global_position - global_position
+	player_ray = RayCast2D.new()
+	add_child(player_ray)
 
-	if ray.is_colliding():
-		ray_colliding_with_enemy = ray.get_collider() == target
+func _physics_process(delta):
+
+	player_ray.target_position = player.global_position - global_position
 	
-	if is_in_light and ray_colliding_with_enemy:
+	var hit = false
+	while player_ray.is_colliding() and !hit:
+		var obj = player_ray.get_collider()
+		if obj.is_in_group("Enemy"):
+			player_ray.add_exception(obj)
+			player_ray.force_raycast_update()
+		elif obj.is_in_group("Player"):
+			player_ray_colliding = true
+			hit = true
+		else:
+			player_ray_colliding = false
+			hit = true
+	
+	if player.flashlight_active and is_in_light and player_ray_colliding:
 		healthbar.visible = true
-		healthbar._set_health(healthbar.health - 0.2)
+		healthbar.health = healthbar.health - 0.2
 	else:
 		healthbar.visible = false
 	
 	if healthbar.value <= 0:
 		queue_free()
 	
-	var direction = Vector2.ZERO
-	
+	# Navigation
 	direction = navigation_agent.get_next_path_position() - global_position
 	direction = direction.normalized()
 	
@@ -60,30 +70,26 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-var t = 0
-
 func _on_timer_timeout():
 	
 	var proximity_range = 14
-	var x_proximity = abs(global_position.x - target.global_position.x) < proximity_range
-	var y_proximity = abs(global_position.y - target.global_position.y) < proximity_range
+	var x_proximity = abs(global_position.x - player.global_position.x) < proximity_range
+	var y_proximity = abs(global_position.y - player.global_position.y) < proximity_range
 	if (x_proximity and y_proximity):
 		print("Reached player!")
 		get_tree().paused = true
 	
-	navigation_agent.target_position = target.global_position
+	navigation_agent.target_position = player.global_position
 	
-	t += 1
-	if (t == 20):
+	animation_ticker += 1
+	if (animation_ticker == 20):
 		_animated_sprite.play("attack")
-		t = 0
-	elif (t > 10):
+		animation_ticker = 0
+	elif (animation_ticker > 10):
 		_animated_sprite.play("run")
 
-func _on_collision_light_enemy_hit(body):
-	if body.name == "Enemy":
-		is_in_light = true
+func entered_light():
+	is_in_light = true
 
-func _on_collision_light_enemy_hit_stop(body):
-	if body.name == "Enemy":
-		is_in_light = false
+func exited_light():
+	is_in_light = false

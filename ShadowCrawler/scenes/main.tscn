@@ -1,15 +1,13 @@
-[gd_scene load_steps=25 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=23 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
-[ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/new_tile_set.tres" id="1_pq0kh"]
+[ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/map_tile_set.tres" id="1_pq0kh"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_2tl7e"]
-[ext_resource type="Texture2D" uid="uid://ybqo5gbggmu" path="res://extra/lightcircle_only.png" id="3_35ay4"]
-[ext_resource type="Script" path="res://scripts/circlelight.gd" id="4_4ia3d"]
-[ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone_only.png" id="5_avcmf"]
+[ext_resource type="Texture2D" uid="uid://ybqo5gbggmu" path="res://extra/lightcircle.png" id="3_35ay4"]
+[ext_resource type="Script" path="res://scripts/passive_light.gd" id="4_4ia3d"]
+[ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone.png" id="5_avcmf"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="6_nfukf"]
-[ext_resource type="Script" path="res://scenes/player_ray_cast.gd" id="8_5dqd7"]
-[ext_resource type="PackedScene" uid="uid://much5nt6eh6c" path="res://scenes/enemy.tscn" id="9_x06yw"]
-[ext_resource type="Script" path="res://scenes/enemy_spawner.gd" id="10_gjsyt"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="10_gjsyt"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3pf8b"]
 vertices = PackedVector2Array(-59, 70, 278, 118, -182, 118, -103, 70, 101, 38, 185, 6, 229, 6, 278, -150, 229, -31, -182, -150, -103, 33, 101, 1, 185, -31, 5, 6, 5, -31, 57, 1, 57, 38, 228, -31, 228, -32, 227, -32, 227, -42, 187, -42, 187, -32, 186, -32, 186, -31, 100, 1, 100, 0, 99, 0, 99, -10, 3, -42, 59, -10, 59, 0, 58, 0, 4, -32, 58, 1, 4, -31, 3, -32, -37, -42, -37, -32, -38, -32, -38, -31, -39, -31, -59, 33, -60, 33, -60, 32, -39, 6, -61, 32, -61, 22, -101, 22, -101, 32, -102, 32, -102, 33)
@@ -103,23 +101,22 @@ size = Vector2(14, 11)
 
 [node name="Main" type="Node2D"]
 
-[node name="PauseScript" type="Node2D" parent="." node_paths=PackedStringArray("player")]
+[node name="Controller" type="Node2D" parent="."]
 process_mode = 3
 script = ExtResource("1_dgbjk")
-player = NodePath("../Player")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
+[node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
 offset = Vector2(-192, -160)
 anchor_mode = 0
 zoom = Vector2(2.4, 2.4)
 
-[node name="MapRegion" type="NavigationRegion2D" parent="."]
+[node name="Navigation" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3pf8b")
 
-[node name="Map" type="TileMap" parent="MapRegion"]
+[node name="Map" type="TileMap" parent="Navigation"]
 material = SubResource("CanvasItemMaterial_m5n6l")
 tile_set = ExtResource("1_pq0kh")
 format = 2
@@ -131,27 +128,23 @@ layer_1/tile_data = PackedInt32Array(-1, 524288, 6, 65535, 589824, 6, 131071, 52
 layer_2/name = "Walls"
 layer_2/tile_data = PackedInt32Array(196607, 262144, 2, 262143, 262144, 3, -65528, 0, 1, 8, 0, 1, -262150, 196608, 0, -196614, 196608, 1, -131078, 131072, 1, -65542, 131072, 1, -6, 131072, 1, 65530, 131072, 1, 131066, 131072, 1, 196602, 196608, 2, 262138, 196608, 3, -262149, 589824, 0, -196613, 655360, 1, 196603, 262144, 2, 262139, 262144, 3, -262148, 720896, 0, -196612, 655360, 1, 196604, 262144, 2, 262140, 262144, 3, -262147, 851968, 0, -196611, 655360, 1, 196605, 262144, 2, 262141, 262144, 3, -262146, 655360, 0, -196610, 720896, 1, 196606, 262144, 2, 262142, 262144, 3, -262145, 655360, 0, -196609, 720896, 1, -327680, 917504, 0, -262144, 720896, 1, 131072, 262144, 2, 196608, 262144, 3, -327679, 851968, 0, -262143, 851968, 1, 131073, 262144, 2, 196609, 262144, 3, -327678, 720896, 0, -262142, 589824, 1, 131074, 262144, 2, 196610, 262144, 3, -327677, 786432, 0, -262141, 851968, 1, 131075, 262144, 2, 196611, 262144, 3, -327676, 917504, 0, -262140, 720896, 1, 131076, 262144, 2, 196612, 262144, 3, -327675, 917504, 0, -262139, 851968, 1, 131077, 262144, 2, 196613, 262144, 3, -327674, 786432, 0, -262138, 655360, 1, 131078, 262144, 2, 196614, 262144, 3, -327673, 851968, 0, -262137, 917504, 1, 131079, 262144, 2, 196615, 262144, 3, -327672, 327680, 0, -262136, 327680, 1, -196600, 0, 1, -131064, 0, 1, 65544, 0, 1, 131080, 327680, 2, 196616, 327680, 3)
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." groups=["Player"]]
 script = ExtResource("2_2tl7e")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_e3x7n")
 animation = &"run"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="PlayerCollision" type="CollisionShape2D" parent="Player"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_rieev")
 
-[node name="RayCast2D" type="RayCast2D" parent="Player" groups=["PlayerRay"]]
-target_position = Vector2(0, 0)
-script = ExtResource("8_5dqd7")
+[node name="PlayerLight" type="Node" parent="Player"]
 
-[node name="Light" type="Node" parent="Player"]
+[node name="PassiveLight" type="Node" parent="Player/PlayerLight"]
 
-[node name="PlayerLight" type="Node" parent="Player/Light"]
-
-[node name="CollisionLight" type="PointLight2D" parent="Player/Light/PlayerLight"]
+[node name="PassiveCollisionLight" type="PointLight2D" parent="Player/PlayerLight/PassiveLight"]
 scale = Vector2(0.068, 0.068)
 color = Color(1, 1, 1, 0.0313726)
 energy = 16.0
@@ -161,16 +154,15 @@ shadow_enabled = true
 texture = ExtResource("3_35ay4")
 script = ExtResource("4_4ia3d")
 
-[node name="ShadowLight" type="PointLight2D" parent="Player/Light/PlayerLight/CollisionLight"]
-scale = Vector2(1, 1)
+[node name="PassiveShadowLight" type="PointLight2D" parent="Player/PlayerLight/PassiveLight/PassiveCollisionLight"]
 range_z_min = 10
 range_z_max = 20
 shadow_item_cull_mask = 0
 texture = ExtResource("3_35ay4")
 
-[node name="ConeLight" type="Node" parent="Player/Light"]
+[node name="ConeLight" type="Node" parent="Player/PlayerLight"]
 
-[node name="CollisionLight" type="PointLight2D" parent="Player/Light/ConeLight"]
+[node name="Flashlight" type="PointLight2D" parent="Player/PlayerLight/ConeLight"]
 scale = Vector2(0.068, 0.068)
 color = Color(1, 1, 1, 0.0313726)
 energy = 16.0
@@ -180,23 +172,16 @@ shadow_enabled = true
 texture = ExtResource("5_avcmf")
 script = ExtResource("6_nfukf")
 
-[node name="LightArea" type="Area2D" parent="Player/Light/ConeLight/CollisionLight"]
+[node name="ConeArea" type="Area2D" parent="Player/PlayerLight/ConeLight/Flashlight"]
 
-[node name="ShadowLight" type="PointLight2D" parent="Player/Light/ConeLight/CollisionLight"]
-scale = Vector2(1, 1)
+[node name="ConeShadowLight" type="PointLight2D" parent="Player/PlayerLight/ConeLight/Flashlight"]
 range_z_min = 10
 range_z_max = 20
 shadow_item_cull_mask = 0
 texture = ExtResource("5_avcmf")
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("9_x06yw")]
-target = NodePath("../Player")
-
 [node name="EnemySpawner" type="Node" parent="."]
 script = ExtResource("10_gjsyt")
 
-[connection signal="spawn_new_enemy" from="Player/RayCast2D" to="EnemySpawner" method="_on_ray_cast_2d_spawn_new_enemy"]
-[connection signal="enemy_hit" from="Player/Light/ConeLight/CollisionLight" to="Enemy" method="_on_collision_light_enemy_hit"]
-[connection signal="enemy_hit_stop" from="Player/Light/ConeLight/CollisionLight" to="Enemy" method="_on_collision_light_enemy_hit_stop"]
-[connection signal="body_entered" from="Player/Light/ConeLight/CollisionLight/LightArea" to="Player/Light/ConeLight/CollisionLight" method="_on_light_area_body_entered"]
-[connection signal="body_exited" from="Player/Light/ConeLight/CollisionLight/LightArea" to="Player/Light/ConeLight/CollisionLight" method="_on_light_area_body_exited"]
+[connection signal="body_entered" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_entered"]
+[connection signal="body_exited" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_exited"]

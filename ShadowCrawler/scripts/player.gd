@@ -1,17 +1,17 @@
 extends CharacterBody2D
 
-@onready var _animated_sprite = $AnimatedSprite2D
+@onready var _animated_sprite = $PlayerSprite
 
-#func _input(event):
-#	if event is InputEventKey:
-#		var keycode = DisplayServer.keyboard_get_keycode_from_physical(event.physical_keycode)
-#		print(OS.get_keycode_string(keycode))
+var flashlight_active = false
 
 func _process(_delta):
-	if Input.is_action_pressed("right") or Input.is_action_pressed("left"):
+	if Input.is_action_pressed("right") or Input.is_action_pressed("left") or Input.is_action_pressed("up") or Input.is_action_pressed("down"):
 		_animated_sprite.play("run")
 	else:
 		_animated_sprite.play("default")
+	
+	if Input.is_action_just_pressed("click"):
+		flashlight_active = not flashlight_active
 
 @export var speed = 100
 

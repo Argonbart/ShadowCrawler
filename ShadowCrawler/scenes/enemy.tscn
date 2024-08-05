@@ -154,18 +154,18 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfvt5"]
 size = Vector2(8, 8.25)
 
-[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
+[node name="Ghoul" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(160, 20)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_3chrv")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="GhoulSprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_3d8f7")
 sprite_frames = SubResource("SpriteFrames_2hqv2")
 animation = &"attack"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="GhoulCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3.125)
 shape = SubResource("RectangleShape2D_dfvt5")
 

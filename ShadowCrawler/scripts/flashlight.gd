@@ -1,10 +1,7 @@
 extends PointLight2D
 
-signal enemy_hit(body)
-signal enemy_hit_stop(body)
-
 @onready var player = $"../../.."
-@onready var area = $LightArea
+@onready var area = $ConeArea
 
 var enemy_in_cone
 var last_body
@@ -12,12 +9,6 @@ var last_body
 func _process(_delta):
 	if Input.is_action_just_pressed("click"):
 		visible = not visible
-	
-	if enemy_in_cone:
-		if visible:
-			enemy_hit.emit(last_body)
-		else:
-			enemy_hit_stop.emit(last_body)
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -40,11 +31,9 @@ func _ready():
 	area.position = player.position
 
 func _on_light_area_body_entered(body):
-	if body.name == "Enemy":
-		enemy_in_cone = true
-		last_body = body
+	if body.is_in_group("Enemy"):
+		body.entered_light()
 
 func _on_light_area_body_exited(body):
-	if body.name == "Enemy":
-		enemy_in_cone = false
-		last_body = body
+	if body.is_in_group("Enemy"):
+		body.exited_light()
