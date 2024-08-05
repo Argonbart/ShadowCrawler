@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var _animated_sprite = $PlayerSprite
+@onready var flashlight_area = $PlayerLight/ConeLight/Flashlight/ConeArea
 
 var flashlight_active = false
 

@@ -23,8 +23,11 @@ func _ready():
 
 	_animated_sprite.play("run")
 	
+	if player.flashlight_area.overlaps_body(self):
+		is_in_light = true
+	else:
+		is_in_light = false
 	player_ray_colliding = false
-	is_in_light = true
 	healthbar.visible = false
 	direction = Vector2.ZERO
 	healthbar.init_health(health)

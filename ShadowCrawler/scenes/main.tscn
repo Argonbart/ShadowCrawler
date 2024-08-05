@@ -183,5 +183,10 @@ texture = ExtResource("5_avcmf")
 [node name="EnemySpawner" type="Node" parent="."]
 script = ExtResource("10_gjsyt")
 
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+wait_time = 2.0
+autostart = true
+
 [connection signal="body_entered" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_entered"]
 [connection signal="body_exited" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_exited"]
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
