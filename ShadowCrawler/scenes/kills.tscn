@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://fib40wtpm742"]
+
+[ext_resource type="Texture2D" uid="uid://cnkxpc7b4lt1y" path="res://extra/label_bg.png" id="1_ufedo"]
+[ext_resource type="Texture2D" uid="uid://rms7445mxple" path="res://extra/ghoul.png" id="2_4fl5l"]
+
+[node name="Kills" type="NinePatchRect"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -58.0
+offset_bottom = 26.0
+grow_horizontal = 0
+texture = ExtResource("1_ufedo")
+
+[node name="GhoulImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -8.5
+offset_right = -8.0
+offset_bottom = 8.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("2_4fl5l")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -11.0
+offset_right = 38.0
+offset_bottom = 12.0
+grow_vertical = 2
+text = "0"

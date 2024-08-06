@@ -59,6 +59,7 @@ func _physics_process(delta):
 	
 	if healthbar.value <= 0:
 		queue_free()
+		player.killed_ghoul()
 	
 	# Navigation
 	direction = navigation_agent.get_next_path_position() - global_position
@@ -79,8 +80,7 @@ func _on_timer_timeout():
 	var x_proximity = abs(global_position.x - player.global_position.x) < proximity_range
 	var y_proximity = abs(global_position.y - player.global_position.y) < proximity_range
 	if (x_proximity and y_proximity):
-		print("Reached player!")
-		get_tree().paused = true
+		player.damage_player(1)
 	
 	navigation_agent.target_position = player.global_position
 	

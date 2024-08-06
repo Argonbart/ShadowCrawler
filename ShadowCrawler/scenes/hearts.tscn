@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://c86dv4g3rgrtx"]
+
+[ext_resource type="Texture2D" uid="uid://cnkxpc7b4lt1y" path="res://extra/label_bg.png" id="1_jtdh2"]
+[ext_resource type="Texture2D" uid="uid://dq2wwub48cra" path="res://extra/full_heart.png" id="2_5a68j"]
+
+[node name="Hearts" type="NinePatchRect"]
+offset_right = 71.0
+offset_bottom = 26.0
+texture = ExtResource("1_jtdh2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Heart1" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.0
+offset_right = 25.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("2_5a68j")
+expand_mode = 1
+
+[node name="Heart2" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.5
+offset_top = -9.0
+offset_right = 8.5
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5a68j")
+expand_mode = 1
+
+[node name="Heart3" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -9.0
+offset_right = -8.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("2_5a68j")
+expand_mode = 1

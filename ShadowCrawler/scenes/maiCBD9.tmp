@@ -1,13 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=25 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
 [ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/map_tile_set.tres" id="1_pq0kh"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_2tl7e"]
-[ext_resource type="PackedScene" uid="uid://dhb51n0mte8pk" path="res://scenes/interface.tscn" id="2_ygfu0"]
 [ext_resource type="Texture2D" uid="uid://ybqo5gbggmu" path="res://extra/lightcircle.png" id="3_35ay4"]
 [ext_resource type="Script" path="res://scripts/passive_light.gd" id="4_4ia3d"]
 [ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone.png" id="5_avcmf"]
-[ext_resource type="Texture2D" uid="uid://chukwahrvmcjw" path="res://sprites/Medieval Thief Sprite Sheet.png" id="5_dw1rh"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="6_nfukf"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="10_gjsyt"]
 
@@ -25,14 +23,6 @@ load_path = "res://.godot/imported/Medieval Thief Sprite Sheet.png-b0661b0ac2c9c
 [sub_resource type="AtlasTexture" id="AtlasTexture_dfa48"]
 atlas = SubResource("CompressedTexture2D_4tcg6")
 region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2iyo8"]
-atlas = ExtResource("5_dw1rh")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h7ejp"]
-atlas = ExtResource("5_dw1rh")
-region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vbc1"]
 atlas = SubResource("CompressedTexture2D_4tcg6")
@@ -77,17 +67,6 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2iyo8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h7ejp")
-}],
-"loop": true,
-"name": &"hurt",
-"speed": 5.0
-}, {
-"frames": [{
 "duration": 0.5,
 "texture": SubResource("AtlasTexture_0vbc1")
 }, {
@@ -120,18 +99,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rieev"]
 size = Vector2(14, 11)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_e7won"]
-radius = 146.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_08baa"]
+radius = 99.0051
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wu855"]
 radius = 5.0
 
 [node name="Main" type="Node2D"]
-
-[node name="InterfaceCanvas" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
-
-[node name="Interface" parent="InterfaceCanvas" instance=ExtResource("2_ygfu0")]
 
 [node name="Controller" type="Node2D" parent="."]
 process_mode = 3
@@ -144,9 +118,6 @@ color = Color(0.196078, 0.196078, 0.196078, 1)
 offset = Vector2(-192, -160)
 anchor_mode = 0
 zoom = Vector2(2.4, 2.4)
-
-[node name="Interface" parent="Camera" instance=ExtResource("2_ygfu0")]
-metadata/_edit_use_anchors_ = true
 
 [node name="Navigation" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3pf8b")
@@ -169,16 +140,14 @@ script = ExtResource("2_2tl7e")
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_e3x7n")
-animation = &"hurt"
+animation = &"run"
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="Player"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_rieev")
 
-[node name="SpawnProtection" type="Area2D" parent="Player"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/SpawnProtection"]
-shape = SubResource("CircleShape2D_e7won")
+[node name="EnemySpawnProtection" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_08baa")
 
 [node name="PlayerLight" type="Node" parent="Player"]
 
@@ -220,9 +189,6 @@ range_z_max = 20
 shadow_item_cull_mask = 0
 texture = ExtResource("5_avcmf")
 
-[node name="DamageProtection" type="Timer" parent="Player"]
-wait_time = 3.0
-
 [node name="EnemySpawner" type="Node" parent="."]
 script = ExtResource("10_gjsyt")
 
@@ -256,9 +222,6 @@ shape = SubResource("CircleShape2D_wu855")
 position = Vector2(240, 70)
 shape = SubResource("CircleShape2D_wu855")
 
-[connection signal="player_dead" from="InterfaceCanvas/Interface" to="Player" method="_on_interface_player_dead"]
-[connection signal="player_won" from="Camera/Interface" to="Player" method="_on_interface_player_won"]
 [connection signal="body_entered" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_entered"]
 [connection signal="body_exited" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_exited"]
-[connection signal="timeout" from="Player/DamageProtection" to="Player" method="_on_damage_protection_timeout"]
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
