@@ -10,6 +10,9 @@ signal player_won()
 @onready var kills_label = kills_node.get_child(1)
 @onready var ghoul_counter = 0
 
+func _ready():
+	kills_label.text = str(ghoul_counter)
+
 func minus_heart():
 	hearts[hearts_left-1].texture = preload("res://extra/empty_heart.png")
 	hearts_left = hearts_left - 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=32 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
 [ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/map_tile_set.tres" id="1_pq0kh"]
@@ -6,10 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://dhb51n0mte8pk" path="res://scenes/interface.tscn" id="2_ygfu0"]
 [ext_resource type="Texture2D" uid="uid://ybqo5gbggmu" path="res://extra/lightcircle.png" id="3_35ay4"]
 [ext_resource type="Script" path="res://scripts/passive_light.gd" id="4_4ia3d"]
+[ext_resource type="PackedScene" uid="uid://c5f0l7t23xnnl" path="res://scenes/win.tscn" id="4_lwyuf"]
 [ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone.png" id="5_avcmf"]
+[ext_resource type="PackedScene" uid="uid://41txe6rs6w17" path="res://scenes/countdown.tscn" id="5_b5ocm"]
 [ext_resource type="Texture2D" uid="uid://chukwahrvmcjw" path="res://sprites/Medieval Thief Sprite Sheet.png" id="5_dw1rh"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="6_nfukf"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="10_gjsyt"]
+[ext_resource type="PackedScene" uid="uid://chtqps8jp847m" path="res://scenes/gameover.tscn" id="11_1cm6w"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3pf8b"]
 vertices = PackedVector2Array(-59, 70, 278, 118, -182, 118, -103, 70, 101, 38, 185, 6, 229, 6, 278, -150, 229, -31, -182, -150, -103, 33, 101, 1, 185, -31, 5, 6, 5, -31, 57, 1, 57, 38, 228, -31, 228, -32, 227, -32, 227, -42, 187, -42, 187, -32, 186, -32, 186, -31, 100, 1, 100, 0, 99, 0, 99, -10, 3, -42, 59, -10, 59, 0, 58, 0, 4, -32, 58, 1, 4, -31, 3, -32, -37, -42, -37, -32, -38, -32, -38, -31, -39, -31, -59, 33, -60, 33, -60, 32, -39, 6, -61, 32, -61, 22, -101, 22, -101, 32, -102, 32, -102, 33)
@@ -128,14 +131,37 @@ radius = 5.0
 
 [node name="Main" type="Node2D"]
 
+[node name="Controller" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("1_dgbjk")
+
+[node name="ContinueCountdown" type="Timer" parent="Controller"]
+one_shot = true
+
 [node name="InterfaceCanvas" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
 [node name="Interface" parent="InterfaceCanvas" instance=ExtResource("2_ygfu0")]
 
-[node name="Controller" type="Node2D" parent="."]
-process_mode = 3
-script = ExtResource("1_dgbjk")
+[node name="Control" type="Control" parent="InterfaceCanvas/Interface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -37.5
+offset_right = 88.0
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" parent="InterfaceCanvas/Interface/Control" instance=ExtResource("11_1cm6w")]
+
+[node name="WinBlock" parent="InterfaceCanvas/Interface/Control" instance=ExtResource("4_lwyuf")]
+
+[node name="Countdown" parent="InterfaceCanvas/Interface/Control" instance=ExtResource("5_b5ocm")]
 
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -144,9 +170,6 @@ color = Color(0.196078, 0.196078, 0.196078, 1)
 offset = Vector2(-192, -160)
 anchor_mode = 0
 zoom = Vector2(2.4, 2.4)
-
-[node name="Interface" parent="Camera" instance=ExtResource("2_ygfu0")]
-metadata/_edit_use_anchors_ = true
 
 [node name="Navigation" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3pf8b")
@@ -223,6 +246,8 @@ texture = ExtResource("5_avcmf")
 [node name="DamageProtection" type="Timer" parent="Player"]
 wait_time = 3.0
 
+[node name="RedGlowUp" type="Timer" parent="Player/DamageProtection"]
+
 [node name="EnemySpawner" type="Node" parent="."]
 script = ExtResource("10_gjsyt")
 
@@ -256,9 +281,11 @@ shape = SubResource("CircleShape2D_wu855")
 position = Vector2(240, 70)
 shape = SubResource("CircleShape2D_wu855")
 
+[connection signal="timeout" from="Controller/ContinueCountdown" to="Controller" method="_on_continue_countdown_timeout"]
 [connection signal="player_dead" from="InterfaceCanvas/Interface" to="Player" method="_on_interface_player_dead"]
-[connection signal="player_won" from="Camera/Interface" to="Player" method="_on_interface_player_won"]
+[connection signal="player_won" from="InterfaceCanvas/Interface" to="Player" method="_on_interface_player_won"]
 [connection signal="body_entered" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_entered"]
 [connection signal="body_exited" from="Player/PlayerLight/ConeLight/Flashlight/ConeArea" to="Player/PlayerLight/ConeLight/Flashlight" method="_on_light_area_body_exited"]
 [connection signal="timeout" from="Player/DamageProtection" to="Player" method="_on_damage_protection_timeout"]
+[connection signal="timeout" from="Player/DamageProtection/RedGlowUp" to="Player" method="_on_red_glow_up_timeout"]
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

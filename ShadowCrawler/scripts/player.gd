@@ -44,20 +44,21 @@ func damage_player(damage_taken):
 		damaged = true
 		damaged_protection.start()
 		_animated_sprite.play("hurt")
-		canvas_modulate.color = Color.RED
+		damaged_protection.get_child(0).start()
+		canvas_modulate.color = Color("#641414")
 
 func _on_interface_player_dead():
-	print("Player died!")
-	get_tree().paused = true
+	get_parent().get_child(0).game_lost()
 
 func _on_damage_protection_timeout():
 	damaged = false
 	_animated_sprite.play("default")
-	canvas_modulate.color = Color.BLACK
 
 func killed_ghoul():
 	interface.ghoul_kill()
 
 func _on_interface_player_won():
-	print("Player won!")
-	print("Continue playing till you die (:")
+	get_parent().get_child(0).game_won()
+
+func _on_red_glow_up_timeout():
+	canvas_modulate.color = Color("#323232")

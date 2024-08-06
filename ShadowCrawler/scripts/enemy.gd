@@ -41,15 +41,16 @@ func _physics_process(delta):
 	var hit = false
 	while player_ray.is_colliding() and !hit:
 		var obj = player_ray.get_collider()
-		if obj.is_in_group("Enemy"):
-			player_ray.add_exception(obj)
-			player_ray.force_raycast_update()
-		elif obj.is_in_group("Player"):
-			player_ray_colliding = true
-			hit = true
-		else:
-			player_ray_colliding = false
-			hit = true
+		if obj != null:
+			if obj.is_in_group("Enemy"):
+				player_ray.add_exception(obj)
+				player_ray.force_raycast_update()
+			elif obj.is_in_group("Player"):
+				player_ray_colliding = true
+				hit = true
+			else:
+				player_ray_colliding = false
+				hit = true
 	
 	if player.flashlight_active and is_in_light and player_ray_colliding:
 		healthbar.visible = true

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://41txe6rs6w17"]
+
+[node name="Countdown" type="Polygon2D"]
+color = Color(0.0962047, 0.0962048, 0.0962047, 1)
+polygon = PackedVector2Array(0, 0, 176, 0, 176, 75, 0, 75)
+
+[node name="CounterLabel" type="Label" parent="."]
+offset_right = 3520.0
+offset_bottom = 1500.0
+scale = Vector2(0.05, 0.05)
+theme_override_font_sizes/font_size = 1000
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
