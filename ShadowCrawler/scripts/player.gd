@@ -44,7 +44,8 @@ func damage_player(damage_taken):
 		damaged = true
 		damaged_protection.start()
 		_animated_sprite.play("hurt")
-		self.get_child(1).disabled = true
+		set_collision_layer_value(1, false)
+		set_collision_mask_value(2, false)
 		damaged_protection.get_child(0).start()
 		canvas_modulate.color = Color("#641414")
 
@@ -54,7 +55,8 @@ func _on_interface_player_dead():
 func _on_damage_protection_timeout():
 	damaged = false
 	_animated_sprite.play("default")
-	self.get_child(1).disabled = false
+	set_collision_layer_value(1, true)
+	set_collision_mask_value(2, true)
 
 func killed_ghoul():
 	interface.ghoul_kill()

@@ -157,7 +157,6 @@ size = Vector2(8, 8.25)
 [node name="Ghoul" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(160, 20)
 collision_layer = 2
-collision_mask = 5
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_3chrv")
