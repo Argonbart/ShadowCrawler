@@ -25,10 +25,11 @@ func _process(_delta):
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = input_direction * speed
+	return input_direction
 
 func _physics_process(_delta):
-	get_input()
+	var direction = get_input()
+	velocity = direction * speed
 	var horizontal_direction = Input.get_axis("left", "right")
 	
 	if horizontal_direction != 0:
