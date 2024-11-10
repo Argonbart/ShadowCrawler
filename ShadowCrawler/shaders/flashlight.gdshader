@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform bool light_on = false;
 uniform vec2 light_origin;                        // Static position of the light source
 uniform float cone_angle;                         // Half-angle of the cone in radians
 uniform float cone_length;                        // Maximum length of the light cone
@@ -24,7 +25,7 @@ void fragment() {
     float dist_to_light = distance(uv, light_origin);
 
     // Check if the fragment is within the cone angle and length
-    if (angle_to_cone < cone_angle && dist_to_light < cone_length) {
+    if (angle_to_cone < cone_angle && dist_to_light < cone_length && light_on) {
         // Calculate the light intensity based on the distance to the light
         float intensity = 1.0 - (dist_to_light / cone_length);
 

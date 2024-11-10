@@ -15,8 +15,12 @@ func update_cone_shape(cone_length, cone_width_rad):
 
 	var image_texture = ImageTexture.create_from_image($"..".get_texture().get_image())
 
-	if flashlight1 and image_texture != null:
-		flashlight1.texture = image_texture
+	if flashlight1 and image_texture != null and is_instance_valid(image_texture):
+		flashlight1.texture = load("res://cone_texture.png")
+	else:
+		print("Warning: Attempting to set a null texture")
 	
-	if flashlight2 and image_texture != null:
-		flashlight2.texture = image_texture
+	if flashlight2 and image_texture != null and is_instance_valid(image_texture):
+		flashlight2.texture = load("res://cone_texture.png")
+	else:
+		print("Warning: Attempting to set a null texture")

@@ -2,8 +2,8 @@ extends ColorRect
 
 @onready var cone_generator = $"../../../../../../ShapeGenerator/SubViewportContainer/SubViewport/ColorRect"
 
-@export var cone_angle : float = 2.0
-@export var cone_length : float = 100.0
+@export_range(0.0, 1.0) var cone_angle : float = 2.0
+@export_range(0.0, 1000.0) var cone_length : float = 100.0
 
 var first_time = true
 

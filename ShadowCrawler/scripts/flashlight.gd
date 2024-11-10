@@ -2,13 +2,15 @@ extends PointLight2D
 
 @onready var player = $"../../.."
 @onready var area = $ConeArea
+@onready var flashlight_shader = $"../../../../InterfaceCanvas/Interface/FOG/SubViewportContainer/SubViewport/FlashLightDrawing"
 
 var enemy_in_cone
-var last_body
+var last_bodys
 
 func _process(_delta):
 	if Input.is_action_just_pressed("click"):
 		visible = not visible
+		flashlight_shader.material.set_shader_parameter("light_on", !flashlight_shader.material.get_shader_parameter("light_on"))
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())

@@ -30,6 +30,7 @@ shader = ExtResource("7_0eb0p")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ndmye"]
 shader = ExtResource("7_qeumo")
+shader_parameter/light_on = false
 shader_parameter/light_origin = null
 shader_parameter/cone_angle = 0.2
 shader_parameter/cone_length = 50.0
