@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dcd25t6g54nrn"]
+[gd_scene load_steps=44 format=3 uid="uid://dcd25t6g54nrn"]
 
 [ext_resource type="Script" path="res://scripts/pause.gd" id="1_dgbjk"]
 [ext_resource type="TileSet" uid="uid://8q5e6ac33ohj" path="res://tilesets/map_tile_set.tres" id="1_pq0kh"]
@@ -7,12 +7,37 @@
 [ext_resource type="Texture2D" uid="uid://ybqo5gbggmu" path="res://extra/lightcircle.png" id="3_35ay4"]
 [ext_resource type="Script" path="res://scripts/passive_light.gd" id="4_4ia3d"]
 [ext_resource type="PackedScene" uid="uid://c5f0l7t23xnnl" path="res://scenes/win.tscn" id="4_lwyuf"]
-[ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone.png" id="5_avcmf"]
 [ext_resource type="PackedScene" uid="uid://41txe6rs6w17" path="res://scenes/countdown.tscn" id="5_b5ocm"]
 [ext_resource type="Texture2D" uid="uid://chukwahrvmcjw" path="res://sprites/Medieval Thief Sprite Sheet.png" id="5_dw1rh"]
+[ext_resource type="Texture2D" uid="uid://dwdyqxw1kgwoe" path="res://fogtextures/circle_test.png" id="6_5wmc3"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="6_nfukf"]
+[ext_resource type="Shader" path="res://shaders/transp.gdshader" id="7_0eb0p"]
+[ext_resource type="Script" path="res://shaders/blending_drawing.gd" id="7_nwjwc"]
+[ext_resource type="Shader" path="res://shaders/flashlight.gdshader" id="7_qeumo"]
+[ext_resource type="Shader" path="res://shaders/blending.gdshader" id="8_sqcvm"]
+[ext_resource type="Script" path="res://shaders/flashlight_drawing.gd" id="9_hvbq2"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="10_gjsyt"]
 [ext_resource type="PackedScene" uid="uid://chtqps8jp847m" path="res://scenes/gameover.tscn" id="11_1cm6w"]
+[ext_resource type="Texture2D" uid="uid://njr7tmfrshsb" path="res://extra/lightcone.png" id="17_cocey"]
+[ext_resource type="Material" uid="uid://bsmwxmwbf56hj" path="res://shaders/flashlight_cone_shader_material.tres" id="17_idpdv"]
+[ext_resource type="Script" path="res://shaders/cone_shape.gd" id="21_axdt2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tc27y"]
+blend_mode = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ubmi"]
+shader = ExtResource("7_0eb0p")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ndmye"]
+shader = ExtResource("7_qeumo")
+shader_parameter/light_origin = null
+shader_parameter/cone_angle = 0.2
+shader_parameter/cone_length = 50.0
+shader_parameter/light_color = Color(1, 1, 0.8, 1)
+shader_parameter/mouse_position = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bnxmc"]
+shader = ExtResource("8_sqcvm")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3pf8b"]
 vertices = PackedVector2Array(-59, 70, 278, 118, -182, 118, -103, 70, 101, 38, 185, 6, 229, 6, 278, -150, 229, -31, -182, -150, -103, 33, 101, 1, 185, -31, 5, 6, 5, -31, 57, 1, 57, 38, 228, -31, 228, -32, 227, -32, 227, -42, 187, -42, 187, -32, 186, -32, 186, -31, 100, 1, 100, 0, 99, 0, 99, -10, 3, -42, 59, -10, 59, 0, 58, 0, 4, -32, 58, 1, 4, -31, 3, -32, -37, -42, -37, -32, -38, -32, -38, -31, -39, -31, -59, 33, -60, 33, -60, 32, -39, 6, -61, 32, -61, 22, -101, 22, -101, 32, -102, 32, -102, 33)
@@ -144,6 +169,7 @@ follow_viewport_enabled = true
 [node name="Interface" parent="InterfaceCanvas" instance=ExtResource("2_ygfu0")]
 
 [node name="Control" type="Control" parent="InterfaceCanvas/Interface"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -162,6 +188,69 @@ grow_vertical = 2
 [node name="WinBlock" parent="InterfaceCanvas/Interface/Control" instance=ExtResource("4_lwyuf")]
 
 [node name="Countdown" parent="InterfaceCanvas/Interface/Control" instance=ExtResource("5_b5ocm")]
+
+[node name="FogDrawing" type="TextureRect" parent="InterfaceCanvas/Interface"]
+material = SubResource("CanvasItemMaterial_tc27y")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_5wmc3")
+expand_mode = 1
+
+[node name="FOG" type="TextureRect" parent="InterfaceCanvas/Interface"]
+material = SubResource("ShaderMaterial_4ubmi")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 480.0
+offset_right = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="InterfaceCanvas/Interface/FOG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="InterfaceCanvas/Interface/FOG/SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(480, 288)
+render_target_update_mode = 4
+
+[node name="FlashLightDrawing" type="ColorRect" parent="InterfaceCanvas/Interface/FOG/SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_ndmye")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_hvbq2")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="InterfaceCanvas/Interface/FOG/SubViewportContainer/SubViewport"]
+copy_mode = 2
+
+[node name="BlendingDrawing" type="ColorRect" parent="InterfaceCanvas/Interface/FOG/SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_bnxmc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_nwjwc")
+cone_angle = 0.37
+cone_length = 137.0
 
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -233,7 +322,7 @@ energy = 16.0
 range_z_min = -10
 range_z_max = 10
 shadow_enabled = true
-texture = ExtResource("5_avcmf")
+texture = ExtResource("17_cocey")
 script = ExtResource("6_nfukf")
 
 [node name="ConeArea" type="Area2D" parent="Player/PlayerLight/ConeLight/Flashlight"]
@@ -244,7 +333,7 @@ collision_mask = 2
 range_z_min = 10
 range_z_max = 20
 shadow_item_cull_mask = 0
-texture = ExtResource("5_avcmf")
+texture = ExtResource("17_cocey")
 
 [node name="DamageProtection" type="Timer" parent="Player"]
 wait_time = 3.0
@@ -283,6 +372,25 @@ shape = SubResource("CircleShape2D_wu855")
 [node name="SpawnPoint4_Shape" type="CollisionShape2D" parent="EnemySpawner/SpawnPoints/SpawnPoint4"]
 position = Vector2(240, 70)
 shape = SubResource("CircleShape2D_wu855")
+
+[node name="ShapeGenerator" type="Node" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="ShapeGenerator"]
+offset_left = 288.0
+offset_top = 128.0
+offset_right = 416.0
+offset_bottom = 256.0
+
+[node name="SubViewport" type="SubViewport" parent="ShapeGenerator/SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="ShapeGenerator/SubViewportContainer/SubViewport"]
+material = ExtResource("17_idpdv")
+script = ExtResource("21_axdt2")
 
 [connection signal="timeout" from="Controller/ContinueCountdown" to="Controller" method="_on_continue_countdown_timeout"]
 [connection signal="player_dead" from="InterfaceCanvas/Interface" to="Player" method="_on_interface_player_dead"]

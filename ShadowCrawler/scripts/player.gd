@@ -20,6 +20,8 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("click"):
 		flashlight_active = not flashlight_active
+	
+	$"../InterfaceCanvas/Interface/FOG/SubViewportContainer/SubViewport/FlashLightDrawing".material.set_shader_parameter("light_origin", position - Vector2(-192, -160))
 
 @export var speed = 100
 

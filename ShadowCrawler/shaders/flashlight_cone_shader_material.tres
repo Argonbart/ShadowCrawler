@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bsmwxmwbf56hj"]
+
+[ext_resource type="Shader" path="res://shaders/flashlight_cone_shader.gdshader" id="1_hkq7t"]
+
+[resource]
+shader = ExtResource("1_hkq7t")
+shader_parameter/u_cone_length = 100.0
+shader_parameter/u_cone_width = 1.0
+shader_parameter/u_color = Color(1, 1, 1, 1)
