@@ -6,9 +6,10 @@ extends ColorRect
 @export_range(0.0, 1000.0) var cone_length : float = 100.0
 
 var first_time = true
+var second_time = true
 
 func _ready():
-	cone_generator.update_cone_shape(cone_length, cone_angle)
+	pass#cone_generator.update_cone_shape(cone_length, cone_angle)
 
 func _process(_delta):
 	
@@ -16,6 +17,10 @@ func _process(_delta):
 		material.set_shader_parameter("previous_texture", load("res://fogtextures/all_black.png"))
 		first_time = false
 		return
+	
+	if second_time:
+		cone_generator.update_cone_shape(cone_length, cone_angle)
+		second_time = false
 	
 	#cone_generator.update_cone_shape(cone_length, cone_angle)
 	

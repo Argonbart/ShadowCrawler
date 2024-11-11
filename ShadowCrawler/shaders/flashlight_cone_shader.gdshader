@@ -17,7 +17,7 @@ void fragment() {
     float distance = length(centered_uv);
 
     // Check if the pixel falls within the cone shape
-    if (abs(angle) < u_cone_width * 0.5 && distance < 0.5) {
+    if (abs(angle) < u_cone_width && distance < 0.5) {
         // Inside the cone: set color
         COLOR = u_color;
     } else {

@@ -250,8 +250,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_nwjwc")
-cone_angle = 0.4
-cone_length = 80.0
+cone_angle = 0.602
+cone_length = 137.0
 
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -317,6 +317,7 @@ texture = ExtResource("3_35ay4")
 [node name="ConeLight" type="Node" parent="Player/PlayerLight"]
 
 [node name="Flashlight" type="PointLight2D" parent="Player/PlayerLight/ConeLight"]
+scale = Vector2(0.068, 0.068)
 color = Color(1, 1, 1, 0.0313726)
 energy = 16.0
 range_z_min = -10
